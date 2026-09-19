@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جناح – سوق الطيور</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#16302f;--mute:#5d716f;--line:#e2ddd0;--pri:#0e5a6b;--pri-ink:#fff;--acc:#f2b33d;--acc-ink:#3a2a00;--ok:#2e7d4f;--chip:#e8efee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b1c;--card:#172829;--ink:#eaf1ef;--mute:#9db3b0;--line:#2a3f40;--pri:#5cc0d4;--pri-ink:#062b33;--acc:#f2b33d;--chip:#1f3536}}
+:root[data-theme="dark"]{--bg:#0f1b1c;--card:#172829;--ink:#eaf1ef;--mute:#9db3b0;--line:#2a3f40;--pri:#5cc0d4;--pri-ink:#062b33;--acc:#f2b33d;--chip:#1f3536}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,sans-serif;line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1100px;margin:auto;padding:0 16px}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;font-size:1.5rem;color:var(--pri)}
+.btn{border:0;border-radius:10px;padding:9px 16px;font-weight:600;cursor:pointer;background:var(--pri);color:var(--pri-ink)}
+.btn.acc{background:var(--acc);color:var(--acc-ink)}
+.btn.ghost{background:var(--chip);color:var(--ink)}
+.btn.wa{background:#1fa855;color:#fff}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.hero{background:var(--pri);color:var(--pri-ink);padding:40px 0 34px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{background:#12383f;color:#eaf1ef}}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);margin:0 0 6px;font-weight:800;line-height:1.25}
+.hero p{margin:0 0 20px;opacity:.9}
+.search{display:flex;gap:8px;background:var(--card);padding:8px;border-radius:14px;max-width:640px}
+.search input{flex:1;border:0;background:transparent;padding:8px 10px;min-width:0;outline:0}
+.species{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px}
+.sp{flex:none;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:inherit;border-radius:999px;padding:6px 14px;cursor:pointer}
+.sp[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);font-weight:600}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:20px;padding:22px 0 60px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}}
+aside{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;align-self:start}
+aside h3{margin:0 0 10px;font-size:1rem}
+label.f{display:block;font-size:.85rem;color:var(--mute);margin:10px 0 4px}
+select,input[type=text],input[type=number],input[type=tel],textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.chk{display:flex;gap:8px;align-items:center;margin-top:12px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;text-align:start;padding:0;display:block;width:100%}
+.card:hover{border-color:var(--pri)}
+.pic{height:140px;display:flex;align-items:center;justify-content:center;font-size:4.2rem;position:relative}
+.tag{position:absolute;top:8px;inset-inline-start:8px;background:var(--acc);color:var(--acc-ink);font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px}
+.fav{position:absolute;top:6px;inset-inline-end:6px;background:var(--card);border:0;border-radius:50%;width:32px;height:32px;cursor:pointer}
+.info{padding:12px}
+.info h4{margin:0;font-size:1rem}
+.price{font-weight:800;color:var(--pri);font-size:1.1rem}
+.meta{color:var(--mute);font-size:.82rem}
+.ver{color:var(--ok);font-size:.8rem;font-weight:600}
+.empty{padding:40px;text-align:center;color:var(--mute);border:2px dashed var(--line);border-radius:14px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:14px;z-index:20}
+.modal.on{display:flex}
+.sheet{background:var(--card);border-radius:16px;max-width:560px;width:100%;max-height:92vh;overflow:auto;padding:20px}
+.sheet .pic{border-radius:12px;height:190px;font-size:6rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin:14px 0}
+.row div{background:var(--bg);border-radius:8px;padding:6px 10px;font-size:.9rem}
+.row b{display:block;font-size:.75rem;color:var(--mute);font-weight:400}
+.warn{background:#fff4d6;color:#5a4300;border-radius:10px;padding:10px;font-size:.85rem;margin-top:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;z-index:30;display:none}
+footer{text-align:center;color:var(--mute);font-size:.85rem;padding:24px 0}
+</style>
+</head>
+<body>
+<header><div class="wrap bar"><div class="logo">🪶 جناح</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn ghost" id="authBtn">دخول / حساب جديد</button><button class="btn ghost" id="msgBtn" style="display:none">رسائلي</button><button class="btn ghost" id="favBtn">المفضلة (<span id="favN">0</span>)</button><button class="btn acc" id="postBtn">انشر إعلانك</button></div></div></header>
+
+<section class="hero"><div class="wrap">
+<h1>كل الطيور في مكان واحد</h1>
+<p>حمام، ببغاوات، صقور، عصافير زينة وطيور مزارع من مربّين موثّقين.</p>
+<div class="search"><input id="q" type="text" placeholder="ابحث: كوكاتيل أصفر، حمام زاجل..." aria-label="بحث"><button class="btn acc" id="qBtn">بحث</button></div>
+<div class="species" id="species"></div>
+</div></section>
+
+<main class="wrap layout">
+<aside><h3>تصفية النتائج</h3>
+<label class="f" for="city">المدينة</label><select id="city"><option value="">كل المدن</option></select>
+<label class="f" for="sex">الجنس</label><select id="sex"><option value="">الكل</option><option>ذكر</option><option>أنثى</option><option>زوج</option></select>
+<label class="f" for="max">أقصى سعر (د.أ)</label><input id="max" type="number" min="0" placeholder="بدون حد">
+<label class="chk"><input type="checkbox" id="vac"> مطعّم فقط</label>
+<label class="chk"><input type="checkbox" id="vend"> بائع موثّق فقط</label>
+<button class="btn ghost" id="reset" style="margin-top:14px;width:100%">مسح التصفية</button>
+</aside>
+<section><div class="top"><strong id="count"></strong>
+<select id="sort" style="width:auto" aria-label="الترتيب"><option value="new">الأحدث</option><option value="lo">الأرخص</option><option value="hi">الأغلى</option></select></div>
+<div class="grid" id="grid"></div></section>
+</main>
+<footer>نموذج أولي · البيانات تجريبية · يُمنع بيع الطيور المحمية والمهددة بالانقراض</footer>
+
+<div class="modal" id="detail"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+
+<div class="modal" id="post"><div class="sheet" role="dialog" aria-modal="true">
+<h2 style="margin-top:0">انشر إعلان طير</h2>
+<label class="f" for="pt">عنوان الإعلان</label><input id="pt" type="text" placeholder="مثال: زوج كوكاتيل مع القفص">
+<div class="two"><div><label class="f" for="ps">النوع</label><select id="ps"></select></div>
+<div><label class="f" for="pb">السلالة / اللون</label><input id="pb" type="text"></div>
+<div><label class="f" for="pg">الجنس</label><select id="pg"><option>ذكر</option><option>أنثى</option><option>زوج</option></select></div>
+<div><label class="f" for="pa">العمر</label><input id="pa" type="text" placeholder="8 أشهر"></div>
+<div><label class="f" for="pp">السعر (د.أ)</label><input id="pp" type="number" min="0"></div>
+<div><label class="f" for="pc">المدينة</label><input id="pc" type="text" placeholder="عمّان"></div></div>
+<div class="warn">رقمك ما رح يظهر بالإعلان. المشترين بيراسلوك من داخل الموقع.</div>
+<label class="f" for="pd">وصف</label><textarea id="pd" rows="3"></textarea>
+<label class="chk"><input type="checkbox" id="pv"> الطير مطعّم</label>
+<div class="warn">الصور: أضف صورتين على الأقل (في النسخة الكاملة). لا تنشر طيوراً محمية أو ممنوع بيعها.</div>
+<div style="display:flex;gap:8px;margin-top:14px"><button class="btn" id="pub">انشر الإعلان</button><button class="btn ghost" data-close>إلغاء</button></div>
+</div></div>
+<div class="modal" id="auth"><div class="sheet" role="dialog" aria-modal="true">
+<h2 style="margin-top:0" id="aTitle">حساب جديد</h2>
+<div style="display:flex;gap:8px;margin-bottom:8px"><button class="btn" id="tSign">حساب جديد</button><button class="btn ghost" id="tLog">تسجيل دخول</button></div>
+<label class="f" for="au">اسم المستخدم</label><input id="au" type="text" autocomplete="username" placeholder="مثال: abu_khaled">
+<label class="f" for="ap">كلمة المرور (6 خانات على الأقل)</label><input id="ap" type="text" style="-webkit-text-security:disc" autocomplete="current-password">
+<div id="aErr" class="meta" style="color:#c0392b;min-height:22px;margin-top:6px"></div>
+<div class="warn">التسجيل بدون رقم هاتف وبدون إيميل. احفظ كلمة المرور، لأنه ما في استرجاع بالنموذج الأولي.</div>
+<div style="display:flex;gap:8px;margin-top:14px"><button class="btn" id="aGo">أنشئ الحساب</button><button class="btn ghost" data-close>إلغاء</button></div>
+</div></div>
+<div class="modal" id="chat"><div class="sheet" role="dialog" aria-modal="true"><div id="chatBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var SP=[["","الكل"],["حمام","🕊️ حمام"],["ببغاوات","🦜 ببغاوات"],["صقور","🦅 صقور"],["عصافير","🐤 عصافير زينة"],["دجاج وبط","🐓 دجاج وبط"]];
+var EM={"حمام":"🕊️","ببغاوات":"🦜","صقور":"🦅","عصافير":"🐤","دجاج وبط":"🐓"};
+var BG={"حمام":"#dbe7ee","ببغاوات":"#ffe3b8","صقور":"#e6dccb","عصافير":"#fff1a8","دجاج وبط":"#f3d9cf"};
+var D=[
+{id:1,t:"زوج كوكاتيل أصفر مع القفص",s:"ببغاوات",b:"كوكاتيل لوتينو",g:"زوج",a:"10 أشهر",p:85,c:"عمّان",v:1,vend:1,by:"مزرعة الريان",ph:"962790000001",d:"زوج متأقلم وجاهز للتربية، أكل ونظافة ممتازة."},
+{id:2,t:"حمام زاجل سباق – ذكر",s:"حمام",b:"زاجل بلجيكي",g:"ذكر",a:"سنة",p:60,c:"إربد",v:1,vend:0,by:"أبو خالد",ph:"962790000002",d:"عليه حلقة ونسب معروف، من أبوين أبطال سباق."},
+{id:3,t:"صقر شاهين مروّض",s:"صقور",b:"شاهين",g:"أنثى",a:"سنتان",p:2200,c:"الزرقاء",v:1,vend:1,by:"صقارة الجزيرة",ph:"962790000003",d:"مروّضة ومعها شهادة وحلقة رسمية. المعاينة متاحة."},
+{id:4,t:"كناري مغرّد",s:"عصافير",b:"كناري هولندي",g:"ذكر",a:"6 أشهر",p:25,c:"عمّان",v:0,vend:0,by:"سامي",ph:"962790000004",d:"صوته حلو ومغرّد طول اليوم."},
+{id:5,t:"دجاج براهما – 6 دجاجات وديك",s:"دجاج وبط",b:"براهما",g:"زوج",a:"8 أشهر",p:150,c:"مادبا",v:1,vend:1,by:"مزرعة الوادي",ph:"962790000005",d:"دجاج كبير الحجم ومنتج، سعر للمجموعة كاملة."},
+{id:6,t:"ببغاء ماكاو أزرق",s:"ببغاوات",b:"ماكاو أزرق وأصفر",g:"أنثى",a:"3 سنوات",p:1400,c:"عمّان",v:1,vend:1,by:"عالم الببغاوات",ph:"962790000006",d:"تقلّد كلمات، هادئة مع الأطفال. مع شهادة صحية."},
+{id:7,t:"حمام كشّة أبيض – زوج",s:"حمام",b:"كشّة",g:"زوج",a:"سنة ونصف",p:45,c:"العقبة",v:0,vend:0,by:"محمد",ph:"962790000007",d:"زوج منسجم وبيّاض، لون أبيض صافي."},
+{id:8,t:"طيور حب – 4 قطع ألوان مختلطة",s:"عصافير",b:"طيور الحب",g:"زوج",a:"5 أشهر",p:40,c:"إربد",v:1,vend:0,by:"ليث",ph:"962790000008",d:"ألوان مميزة، مطعّمة ومتأقلمة مع الناس."}
+];
+var st={sp:"",favs:{}},$=function(i){return document.getElementById(i)};
+SP.forEach(function(x){var b=document.createElement("button");b.className="sp";b.textContent=x[1];b.setAttribute("aria-pressed",x[0]==="");b.onclick=function(){st.sp=x[0];[].forEach.call($("species").children,function(c){c.setAttribute("aria-pressed",c===b)});render()};$("species").appendChild(b)});
+Object.keys(EM).forEach(function(k){var o=document.createElement("option");o.textContent=k;$("ps").appendChild(o)});
+function cities(){var s={};D.forEach(function(x){s[x.c]=1});var cur=$("city").value;$("city").innerHTML='<option value="">كل المدن</option>'+Object.keys(s).map(function(c){return'<option>'+c+'</option>'}).join("");$("city").value=cur}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function render(){
+var q=$("q").value.trim(),c=$("city").value,sx=$("sex").value,mx=+$("max").value,vc=$("vac").checked,vd=$("vend").checked;
+var r=D.filter(function(x){return(!st.sp||x.s===st.sp)&&(!c||x.c===c)&&(!sx||x.g===sx)&&(!mx||x.p<=mx)&&(!vc||x.v)&&(!vd||x.vend)&&(!q||(x.t+x.b+x.d+x.c+x.s).indexOf(q)>-1)});
+var so=$("sort").value;if(so==="lo")r.sort(function(a,b){return a.p-b.p});else if(so==="hi")r.sort(function(a,b){return b.p-a.p});else r.sort(function(a,b){return b.id-a.id});
+$("count").textContent=r.length+" إعلان";
+$("grid").innerHTML=r.length?r.map(function(x){return'<div class="card" tabindex="0" role="button" data-id="'+x.id+'"><div class="pic" style="background:'+BG[x.s]+'">'+EM[x.s]+(x.vend?'<span class="tag">بائع موثّق</span>':'')+'<button class="fav" data-fav="'+x.id+'" aria-label="أضف للمفضلة">'+(st.favs[x.id]?"❤️":"🤍")+'</button></div><div class="info"><h4>'+esc(x.t)+'</h4><div class="price">'+x.p+' د.أ</div><div class="meta">'+esc(x.g)+' · '+esc(x.a)+' · '+esc(x.c)+'</div>'+(x.v?'<div class="ver">✓ مطعّم</div>':'')+'</div></div>'}).join(""):'<div class="empty" style="grid-column:1/-1">ما لقينا إعلانات بهالمواصفات. جرّب تمسح التصفية أو انشر طلبك.</div>';
+$("favN").textContent=Object.keys(st.favs).length}
+function show(id){var x=D.filter(function(y){return y.id==id})[0];if(!x)return;
+$("sheet").innerHTML='<div class="pic" style="background:'+BG[x.s]+'">'+EM[x.s]+'</div><h2 style="margin:12px 0 0">'+esc(x.t)+'</h2><div class="price" style="font-size:1.4rem">'+x.p+' د.أ</div>'
++'<div class="row"><div><b>النوع</b>'+esc(x.s)+'</div><div><b>السلالة</b>'+esc(x.b)+'</div><div><b>الجنس</b>'+esc(x.g)+'</div><div><b>العمر</b>'+esc(x.a)+'</div><div><b>المدينة</b>'+esc(x.c)+'</div><div><b>التطعيم</b>'+(x.v?"مطعّم":"غير محدد")+'</div></div>'
++'<p>'+esc(x.d)+'</p><p class="meta">البائع: <strong>'+esc(x.by)+'</strong> '+(x.vend?'<span class="ver">✓ موثّق</span>':'')+'</p>'
++'<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn wa" data-chat="'+x.id+'">راسل البائع</button><button class="btn ghost" data-close>إغلاق</button></div>'
++'<div class="warn">نصيحة: عاين الطير شخصياً قبل الدفع، ولا تحوّل مبالغ مسبقة لبائع لا تعرفه.</div>';
+$("detail").classList.add("on")}
+function toast(m){var t=$("toast");t.textContent=m;t.style.display="block";setTimeout(function(){t.style.display="none"},2200)}
+document.addEventListener("click",function(e){
+var f=e.target.closest("[data-fav]");if(f){e.stopPropagation();var i=f.dataset.fav;if(st.favs[i])delete st.favs[i];else st.favs[i]=1;render();return}
+var c=e.target.closest(".card");if(c){show(c.dataset.id);return}
+if(e.target.closest("[data-close]")||e.target.classList.contains("modal")){document.querySelectorAll(".modal").forEach(function(m){m.classList.remove("on")})}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")document.querySelectorAll(".modal").forEach(function(m){m.classList.remove("on")});if(e.key==="Enter"&&e.target.classList.contains("card"))show(e.target.dataset.id)});
+["city","sex","max","vac","vend","sort"].forEach(function(i){$(i).oninput=render});
+$("q").oninput=render;$("qBtn").onclick=render;
+$("reset").onclick=function(){["q","max"].forEach(function(i){$(i).value=""});["city","sex"].forEach(function(i){$(i).value=""});$("vac").checked=$("vend").checked=false;st.sp="";[].forEach.call($("species").children,function(c,n){c.setAttribute("aria-pressed",n===0)});render()};
+$("favBtn").onclick=function(){var ids=Object.keys(st.favs);if(!ids.length){toast("ما ضفت أي إعلان للمفضلة بعد");return}D.forEach(function(x){});$("q").value="";var keep=D.filter(function(x){return st.favs[x.id]});$("grid").innerHTML="";var tmp=D;D=keep;render();D=tmp;$("count").textContent=keep.length+" في المفضلة"};
+$("postBtn").onclick=function(){if(!me){needLogin();return}$("post").classList.add("on")};
+$("pub").onclick=function(){var t=$("pt").value.trim(),p=+$("pp").value,ph="";
+if(!t||!p||!$("pc").value.trim()){toast("عبّي العنوان والسعر والمدينة");return}
+D.push({id:D.length+1,t:t,s:$("ps").value,b:$("pb").value||"—",g:$("pg").value,a:$("pa").value||"—",p:p,c:$("pc").value.trim(),v:$("pv").checked?1:0,vend:0,by:me,ph:ph,d:$("pd").value||"—"});
+$("post").classList.remove("on");["pt","pb","pa","pp","pc","pd"].forEach(function(i){$(i).value=""});cities();$("sort").value="new";st.sp="";[].forEach.call($("species").children,function(c,n){c.setAttribute("aria-pressed",n===0)});render();toast("تم نشر الإعلان")};
+
+var ST={get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+var mode="sign",me=ST.get("janah_me",null);
+function hash(t){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")})}
+function uiAuth(){$("authBtn").textContent=me?("👤 "+me+" (خروج)"):"دخول / حساب جديد";$("msgBtn").style.display=me?"":"none"}
+function setMode(m){mode=m;$("tSign").className="btn"+(m==="sign"?"":" ghost");$("tLog").className="btn"+(m==="log"?"":" ghost");$("aTitle").textContent=m==="sign"?"حساب جديد":"تسجيل دخول";$("aGo").textContent=m==="sign"?"أنشئ الحساب":"سجّل الدخول";$("aErr").textContent=""}
+function needLogin(){setMode("sign");$("auth").classList.add("on")}
+$("authBtn").onclick=function(){if(me){me=null;ST.set("janah_me",null);uiAuth();toast("تم تسجيل الخروج")}else needLogin()};
+$("tSign").onclick=function(){setMode("sign")};$("tLog").onclick=function(){setMode("log")};
+$("aGo").onclick=function(){var u=$("au").value.trim().toLowerCase(),p=$("ap").value;
+if(!/^[a-z0-9_\u0600-\u06ff]{3,20}$/.test(u)){$("aErr").textContent="اسم المستخدم 3 إلى 20 حرف أو رقم أو _";return}
+if(p.length<6){$("aErr").textContent="كلمة المرور أقل من 6 خانات";return}
+var users=ST.get("janah_users",{});
+hash(p).then(function(h){
+if(mode==="sign"){if(users[u]){$("aErr").textContent="اسم المستخدم مأخوذ، جرّب اسم ثاني";return}users[u]=h;ST.set("janah_users",users)}
+else if(users[u]!==h){$("aErr").textContent="اسم المستخدم أو كلمة المرور غلط";return}
+me=u;ST.set("janah_me",u);$("auth").classList.remove("on");$("au").value=$("ap").value="";uiAuth();toast("أهلاً "+u)})};
+function convs(){return ST.get("janah_chats",{})}
+function openChat(id){if(!me){needLogin();return}var x=D.filter(function(y){return y.id==id})[0];var key=me+"|"+id;var c=convs()[key]||[];
+$("detail").classList.remove("on");
+$("chatBody").innerHTML='<h3 style="margin-top:0">'+esc(x.t)+'</h3><p class="meta">محادثة مع '+esc(x.by)+' داخل الموقع. رقمك ما بيظهر له.</p><div id="msgs" style="background:var(--bg);border-radius:10px;padding:10px;min-height:140px;max-height:260px;overflow:auto">'+(c.length?c.map(function(m){return'<div style="margin:6px 0;text-align:'+(m.me?"start":"end")+'"><span style="display:inline-block;padding:6px 12px;border-radius:12px;background:'+(m.me?"var(--pri);color:var(--pri-ink)":"var(--chip)")+'">'+esc(m.t)+'</span></div>'}).join(""):'<div class="meta">ابدأ المحادثة: اسأل عن الطير أو اتفق على موعد معاينة.</div>')+'</div><div style="display:flex;gap:8px;margin-top:10px"><input id="cm" type="text" placeholder="اكتب رسالتك"><button class="btn" id="cs">أرسل</button></div><button class="btn ghost" data-close style="margin-top:10px">إغلاق</button>';
+$("chat").classList.add("on");
+$("cs").onclick=function(){var t=$("cm").value.trim();if(!t)return;var a=convs();a[key]=(a[key]||[]).concat([{me:1,t:t}]);ST.set("janah_chats",a);openChat(id)};
+$("cm").onkeydown=function(e){if(e.key==="Enter")$("cs").click()}}
+$("msgBtn").onclick=function(){var a=convs(),ks=Object.keys(a).filter(function(k){return k.indexOf(me+"|")===0});
+if(!ks.length){toast("ما عندك محادثات بعد");return}
+$("chatBody").innerHTML='<h3 style="margin-top:0">رسائلي</h3>'+ks.map(function(k){var id=k.split("|")[1],x=D.filter(function(y){return y.id==id})[0];var l=a[k][a[k].length-1];return'<button class="card" style="padding:10px;margin-bottom:8px" data-chat="'+id+'"><strong>'+esc(x.t)+'</strong><div class="meta">'+esc(l.t)+'</div></button>'}).join("")+'<button class="btn ghost" data-close>إغلاق</button>';$("chat").classList.add("on")};
+document.addEventListener("click",function(e){var c=e.target.closest("[data-chat]");if(c)openChat(c.dataset.chat)});
+uiAuth();
+cities();render();
+</script>
+</body>
+</html>
